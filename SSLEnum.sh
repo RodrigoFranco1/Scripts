@@ -1,15 +1,20 @@
 #!/bin/bash
 
 # Script para identificar subdominios, sus direcciones IP y obtener información de Shodan
-# Verifica si se proporcionó un dominio como argumento
-if [ "$#" -ne 1 ]; then
-    echo "Uso: $0 <dominio.com>"
+
+# Verifica si se proporcionaron los argumentos necesarios
+if [ "$#" -ne 2 ]; then
+    echo "Uso: $0 <dominio.com> <apikeydeshodan>"
     exit 1
 fi
 
 DOMINIO=$1
+SHODAN_API_KEY=$2
 
 echo "Enumerando subdominios y obteniendo IPs para: $DOMINIO"
+
+# Configura la API key de Shodan
+shodan init "$SHODAN_API_KEY"
 
 # Directorio de trabajo temporal
 WORKDIR=$(mktemp -d)
@@ -39,3 +44,4 @@ done < "$IP_ADDRESSES_LIST"
 # rm -rf "$WORKDIR"
 
 echo "Proceso completado. Revisa los archivos en $WORKDIR para los resultados."
+
