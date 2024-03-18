@@ -11,21 +11,25 @@ fi
 DOMINIO=$1
 SHODAN_API_KEY=$2
 
+# Obtiene el directorio donde se encuentra el script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+OUTPUT_DIR="$SCRIPT_DIR/SSLOutput"
+
+# Crea el directorio SSLOutput si no existe
+mkdir -p "$OUTPUT_DIR"
+
 echo "Enumerando subdominios y obteniendo IPs para: $DOMINIO"
 
 # Configura la API key de Shodan
 shodan init "$SHODAN_API_KEY"
 
-# Directorio de trabajo temporal
-WORKDIR=$(mktemp -d)
-echo "Directorio de trabajo: $WORKDIR"
-
 # Archivos temporales
-SUBDOMAINS_LIST="$WORKDIR/subdomainlist"
-IP_ADDRESSES_LIST="$WORKDIR/ip-addresses.txt"
+SUBDOMAINS_LIST="$OUTPUT_DIR/subdomainlist"
+IP_ADDRESSES_LIST="$OUTPUT_DIR/ip-addresses.txt"
+CRTSH_OUTPUT_JSON="$OUTPUT_DIR/crtsh_output.json"
 
 # Paso 1: Obtener los logs de transparencia del certificado
-curl -s "https://crt.sh/?q=${DOMINIO}&output=json" | jq . > "$WORKDIR/crtsh_output.json"
+curl -s "https://crt.sh/?q=${DOMINIO}&output=json" | jq . > "$CRTSH_OUTPUT_JSON"
 
 # Paso 2: Filtrar los dominios únicos
 curl -s "https://crt.sh/?q=${DOMINIO}&output=json" | jq . | grep name | cut -d":" -f2 | grep -v "CN=" | cut -d'"' -f2 | awk '{gsub(/\\n/,"\n");}1;' | sort -u > "$SUBDOMAINS_LIST"
@@ -40,8 +44,4 @@ while IFS= read -r ip; do
     shodan host "$ip"
 done < "$IP_ADDRESSES_LIST"
 
-# Limpieza (opcional, descomentar si deseas eliminar el directorio de trabajo)
-# rm -rf "$WORKDIR"
-
-echo "Proceso completado. Revisa los archivos en $WORKDIR para los resultados."
-
+echo "Proceso completado. Revisa los archivos en $OUTPUT_DIR para los resultados."
