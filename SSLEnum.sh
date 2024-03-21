@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Script para identificar subdominios, sus direcciones IP y obtener información de Shodan
 
 # Verifica si se proporcionaron los argumentos necesarios
