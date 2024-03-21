@@ -4,7 +4,7 @@
 
 # Verifica si se proporcionaron los argumentos necesarios
 if [ "$#" -ne 2 ]; then
-    echo "Uso: $0 <dominio.com> <apikeydeshodan>"
+    echo "Uso: $0 <dominio.com> <apikey_shodan>"
     exit 1
 fi
 
