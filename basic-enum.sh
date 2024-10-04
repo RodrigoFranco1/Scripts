@@ -23,8 +23,9 @@ mostrar_menu() {
   echo -e "${YELLOW}10)${NC} Listar capacidades del kernel"
   echo -e "${YELLOW}11)${NC} Información de red"
   echo -e "${YELLOW}12)${NC} Ver si sudo puede ejecutarse sin contraseña"
-  echo -e "${YELLOW}13)${NC} Salir"
-  echo -n -e "${BLUE}Selecciona una opción [1-13]: ${NC}"
+  echo -e "${YELLOW}13)${NC} Buscar por un string específico"
+  echo -e "${YELLOW}14)${NC} Salir"
+  echo -n -e "${BLUE}Selecciona una opción [1-14]: ${NC}"
 }
 
 # Función para ejecutar la opción seleccionada
@@ -85,6 +86,12 @@ ejecutar_opcion() {
       sudo -l | grep "NOPASSWD"
       ;;
     13)
+      echo -n -e "${BLUE}Ingresa la cadena de texto a buscar: ${NC}"
+      read string
+      echo -e "${GREEN}Buscando '${string}' en archivos del sistema...${NC}"
+      find / ! -path "*/proc/*" -type f -exec grep -Hn "${string}" {} + 2>/dev/null
+      ;;
+    14)
       echo "Saliendo..."
       exit 0
       ;;
