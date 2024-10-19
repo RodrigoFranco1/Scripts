@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Parte de la documentación de notion 
+
+
 # Instalar dependencias necesarias
 sudo apt-get install libaio1 python3-dev alien -y
 
