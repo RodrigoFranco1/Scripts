@@ -1,4 +1,6 @@
 #!/bin/bash
+
+#Parte de la documentación de notion 
 wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basic-linux.x64-21.4.0.0.0dbru.zip
 wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-sqlplus-linux.x64-21.4.0.0.0dbru.zip
 sudo mkdir -p /opt/oracle
