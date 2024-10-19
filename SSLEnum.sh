@@ -1,5 +1,6 @@
 #!/bin/bash
 # Script para identificar subdominios, sus direcciones IP y obtener información de Shodan
+# USO: ./script.sh dominio.com TU_SHODAN_API_KEY
 
 # Verifica si se proporcionaron los argumentos necesarios
 if [ "$#" -ne 2 ]; then
